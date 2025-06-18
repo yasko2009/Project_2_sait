@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineDB - База данных фильмов</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-film"></i>
+                    <h1>CineDB</h1>
+                </div>
+                <button id="adminToggle" class="admin-btn">
+                    <i class="fas fa-cog"></i>
+                    <span>Админ панель</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Search Section -->
+            <section id="searchSection" class="search-section">
+                <div class="search-container">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Поиск фильмов, актеров, режиссеров...">
+                        <div id="loadingSpinner" class="loading-spinner hidden">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                    <button id="advancedToggle" class="advanced-toggle">
+                        <i class="fas fa-filter"></i>
+                        <span>Расширенные фильтры</span>
+                    </button>
+                </div>
+
+                <!-- Advanced Filters -->
+                <div id="advancedFilters" class="advanced-filters hidden">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label for="genreFilter">Жанр</label>
+                            <select id="genreFilter">
+                                <option value="all">Все жанры</option>
+                                <option value="action">Боевик</option>
+                                <option value="adventure">Приключения</option>
+                                <option value="comedy">Комедия</option>
+                                <option value="crime">Криминал</option>
+                                <option value="drama">Драма</option>
+                                <option value="horror">Ужасы</option>
+                                <option value="romance">Романтика</option>
+                                <option value="sci-fi">Фантастика</option>
+                                <option value="thriller">Триллер</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="yearFilter">Год</label>
+                            <select id="yearFilter">
+                                <option value="all">Все годы</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="ratingFilter">Мин. рейтинг</label>
+                            <select id="ratingFilter">
+                                <option value="all">Все рейтинги</option>
+                                <option value="8.0">8.0+ звезд</option>
+                                <option value="7.0">7.0+ звезд</option>
+                                <option value="6.0">6.0+ звезд</option>
+                                <option value="5.0">5.0+ звезд</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Movies Grid -->
+            <section id="moviesSection" class="movies-section">
+                <div class="section-header">
+                    <h2 id="sectionTitle">Все фильмы</h2>
+                    <p id="moviesCount" class="movies-count">0 фильмов найдено</p>
+                </div>
+                <div id="moviesGrid" class="movies-grid">
+                    <!-- Movies will be loaded here -->
+                </div>
+                <div id="noResults" class="no-results hidden">
+                    <i class="fas fa-film"></i>
+                    <h3>Фильмы не найдены</h3>
+                    <p>Попробуйте изменить критерии поиска</p>
+                </div>
+            </section>
+
+            <!-- Admin Panel -->
+            <section id="adminPanel" class="admin-panel hidden">
+                <div class="admin-header">
+                    <h2>Админ панель</h2>
+                    <button id="addMovieBtn" class="add-movie-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Добавить фильм</span>
+                    </button>
+                </div>
+                <div class="admin-content">
+                    <div class="admin-movies-list">
+                        <h3>Фильмы (<span id="adminMoviesCount">0</span>)</h3>
+                        <div id="adminMoviesList" class="admin-movies">
+                            <!-- Admin movies list will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Movie Modal -->
+    <div id="movieModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="movieDetails" class="movie-details">
+                <!-- Movie details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Form Modal -->
+    <div id="movieFormModal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content form-modal">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="form-header">
+                <h3 id="formTitle">Добавить новый фильм</h3>
+            </div>
+            <form id="movieForm" class="movie-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="movieTitle">Название</label>
+                        <input type="text" id="movieTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="movieYear">Год</label>
+                        <input type="number" id="movieYear" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="movieGenres">Жанры (через запятую)</label>
+                    <input type="text" id="movieGenres" placeholder="Боевик, Драма, Триллер" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieDirector">Режиссер</label>
+                    <input type="text" id="movieDirector" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieActors">Актеры (через запятую)</label>
+                    <input type="text" id="movieActors" placeholder="Актер 1, Актер 2, Актер 3" required>
+                </div>
+                <div class="form-group">
+                    <label for="moviePlot">Сюжет</label>
+                    <textarea id="moviePlot" rows="3" required></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="movieRating">Рейтинг (0-10)</label>
+                        <input type="number" id="movieRating" step="0.1" min="0" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="movieDuration">Длительность (мин)</label>
+                        <input type="number" id="movieDuration" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="moviePoster">URL постера</label>
+                    <input type="url" id="moviePoster" required>
+                </div>
+                <div class="form-group">
+                    <label for="movieTrailer">URL трейлера (YouTube embed)</label>
+                    <input type="url" id="movieTrailer">
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="movieReleaseDate">Дата выхода</label>
+                        <input type="date" id="movieReleaseDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="movieLanguage">Язык</label>
+                        <input type="text" id="movieLanguage" value="Русский" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="movieCountry">Страна</label>
+                        <input type="text" id="movieCountry" value="Россия" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="movieAwards">Награды (через запятую)</label>
+                    <input type="text" id="movieAwards" placeholder="Оскар за лучший фильм, Золотой глобус">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i>
+                        <span id="submitBtnText">Добавить фильм</span>
+                    </button>
+                    <button type="button" class="cancel-btn" onclick="closeMovieForm()">
+                        Отмена
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
