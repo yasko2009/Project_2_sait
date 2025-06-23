@@ -722,5 +722,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Make movieDB globally accessible for onclick handlers
 
 window.movieDB = movieDB;
-window.movieDB = movieDB;
+
 
