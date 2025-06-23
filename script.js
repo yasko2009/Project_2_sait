@@ -182,8 +182,16 @@ class MovieDatabase {
 
     // Initialize event listeners
     initializeEventListeners() {
+
+        // Admin toggle
+        document.getElementById('adminToggle').addEventListener('click', () => {
+            this.toggleAdminMode();
+        });
+
+
         
     
+
         // Search functionality
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => {
@@ -712,4 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Make movieDB globally accessible for onclick handlers
+
 window.movieDB = movieDB;
+window.movieDB = movieDB;
+
