@@ -1,0 +1,27 @@
+{
+  "name": "project_2_sait-3",
+  "version": "1.0.0",
+  "description": "Современное веб-приложение для управления базой данных фильмов с красивым интерфейсом и полным функционалом.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasko2009/Project_2_sait.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yasko2009/Project_2_sait/issues"
+  },
+  "homepage": "https://github.com/yasko2009/Project_2_sait#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "pg": "^8.16.2",
+    "postgres": "^3.4.7"
+  }
+}
